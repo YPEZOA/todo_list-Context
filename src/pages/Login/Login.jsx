@@ -5,8 +5,10 @@ import Button from '../../components/Button/Button'
 import LinkItem from '../../components/LinkItem/LinkItem'
 import tasksIcon from '../../assets/images/tasks-icon.png'
 import Image from '../../components/Image/Image'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
+  const navigate = useNavigate()
   const { values, reset, handleOnChange } = useForm({
     user: '',
     password: ''
@@ -20,6 +22,7 @@ const Login = () => {
     const userData = { usuario: user, tareas: [] }
     localStorage.setItem('user', JSON.stringify(userData))
     reset()
+    navigate('/user/home')
   }
 
   return (
