@@ -1,7 +1,7 @@
 import * as St from './CalendarModal.styled'
 import Modal from 'react-modal/lib/components/Modal'
 import DatePicker from 'react-datepicker'
-import { addHours } from 'date-fns'
+import { addHours, differenceInSeconds, format, parseISO } from 'date-fns'
 import { useFormik } from 'formik'
 import { registerLocale } from 'react-datepicker'
 
@@ -21,9 +21,21 @@ const customStyles = {
   }
 }
 
-const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
+const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
   const { userTasks } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
+
+  useEffect(() => {
+    if (eventSelected) {
+      const { title, notes, start, end } = eventSelected
+      formik.setValues({
+        title,
+        notes,
+        start: parseISO(start),
+        end: parseISO(end)
+      })
+    }
+  }, [eventSelected])
 
   const formik = useFormik({
     initialValues: {
@@ -34,12 +46,13 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
     },
     onSubmit: (values, { resetForm }) => {
       //TODO: service consume here
+      const difference = differenceInSeconds(values.end, values.start)
+      if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
       const newTask = {
         userTasks: [...userTasks, values]
       }
       setFormSubmitted(true)
       localStorage.setItem('userData', JSON.stringify(newTask))
-      setTasks(userTasks)
       resetForm(true)
       handleOnCloseModal()
     }
@@ -54,6 +67,10 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
       ...formik.values,
       [changing]: event
     })
+  }
+
+  const handleChangeValue = () => {
+    console.log('guardado')
   }
 
   return (
@@ -84,6 +101,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
             showTimeSelect
             locale={'es'}
             timeCaption="Hora"
+            value={formik.values.start}
           />
         </St.DatePickerContainer>
         <St.DatePickerContainer>
@@ -97,6 +115,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
             showTimeSelect
             locale={'es'}
             timeCaption="Hora"
+            value={formik.values.end}
           />
         </St.DatePickerContainer>
         <St.FormGroup>
@@ -119,7 +138,13 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
             onChange={formik.handleChange}
           ></St.TextNotes>
         </St.FormGroup>
-        <St.ButtonSubmit type="submit">Submit</St.ButtonSubmit>
+        {eventSelected ? (
+          <St.Button type="button" onClick={handleChangeValue}>
+            Guardar
+          </St.Button>
+        ) : (
+          <St.Button type="submit">Submit</St.Button>
+        )}
       </form>
     </Modal>
   )

@@ -34,7 +34,7 @@ export const Input = styledComponents.input`
   }
 `
 
-export const ButtonSubmit = styledComponents.button`
+export const Button = styledComponents.button`
   padding: 10px;
   border: none;
   border-radius: 3px;

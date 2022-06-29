@@ -13,7 +13,7 @@ const Main = () => {
 
   const getTasks = useCallback(() => {
     setTasks(userTasks)
-  }, [])
+  }, [tasks])
 
   useEffect(() => {
     getTasks()
@@ -33,7 +33,6 @@ const Main = () => {
         <CalendarModal
           isDateModalOpen={openCalendar}
           onCloseModal={handleCloseModal}
-          setTasks={setTasks}
         />
         <h1 style={{ textAlign: 'center' }}>Aún no tienes tareas asignadas.</h1>
         <div

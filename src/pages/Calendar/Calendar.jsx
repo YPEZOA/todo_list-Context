@@ -12,6 +12,7 @@ import UserContext from '../../context/UserContext'
 
 const CalendarPage = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
+  const [eventSelected, setEventSelected] = useState({})
   const { userTasks } = useContext(UserContext)
 
   const eventStyleGetter = (event, start, end, isSelected) => {
@@ -26,14 +27,22 @@ const CalendarPage = () => {
     }
   }
 
-  const onDoubleClick = () => {
-    //setOpenCalendar(true)
-    console.log('open task')
+  const onDoubleClick = taskSelected => {
+    taskSelected && setEventSelected(taskSelected)
+    setOpenCalendar(true)
+  }
+
+  const onCloseCalendar = () => {
+    setOpenCalendar(false)
   }
 
   return (
     <St.Container>
-      <CalendarModal isDateModalOpen={openCalendar} />
+      <CalendarModal
+        isDateModalOpen={openCalendar}
+        onCloseModal={onCloseCalendar}
+        eventSelected={eventSelected}
+      />
       <Calendar
         culture="es"
         localizer={localizer}
