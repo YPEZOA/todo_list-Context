@@ -19,8 +19,8 @@ const Login = () => {
 
   const handleSubmit = e => {
     e.preventDefault()
-    const userData = { usuario: user, tareas: [] }
-    localStorage.setItem('user', JSON.stringify(userData))
+    const userData = { currentUser: user, userTasks: [] }
+    localStorage.setItem('userData', JSON.stringify(userData))
     reset()
     navigate('/user/home')
   }

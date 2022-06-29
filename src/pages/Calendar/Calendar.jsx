@@ -1,5 +1,5 @@
 import * as St from './Calendar.styled'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { CalendarEvent } from './components/CalendarEvent'
 
 import { Calendar } from 'react-big-calendar'

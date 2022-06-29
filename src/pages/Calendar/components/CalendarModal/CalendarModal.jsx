@@ -9,18 +9,21 @@ import 'react-datepicker/dist/react-datepicker.css'
 import es from 'date-fns/locale/es'
 import Icon from '../../../../components/Icon/Icon'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
+import { useContext, useEffect, useState } from 'react'
+import UserContext from '../../../../context/UserContext'
 
 Modal.setAppElement('#root')
 registerLocale('es', es)
 
 const customStyles = {
   content: {
-    width: '100%'
+    width: '90%'
   }
 }
 
-const CalendarModal = ({ isDateModalOpen, onCloseModal }) => {
-  const { usuario, tareas } = JSON.parse(localStorage.getItem('user'))
+const CalendarModal = ({ isDateModalOpen, onCloseModal, setTasks }) => {
+  const { userTasks } = useContext(UserContext)
+  const [formSubmitted, setFormSubmitted] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -29,15 +32,22 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal }) => {
       start: new Date(),
       end: addHours(new Date(), 2)
     },
-    onSubmit: values => {
+    onSubmit: (values, { resetForm }) => {
       //TODO: service consume here
       const newTask = {
-        usuario,
-        tareas: [...tareas, values]
+        userTasks: [...userTasks, values]
       }
-      localStorage.setItem('user', JSON.stringify(newTask))
+      setFormSubmitted(true)
+      localStorage.setItem('userData', JSON.stringify(newTask))
+      setTasks(userTasks)
+      resetForm(true)
+      handleOnCloseModal()
     }
   })
+
+  const handleOnCloseModal = () => {
+    onCloseModal(true)
+  }
 
   const onDateChange = (event, changing = 'start') => {
     formik.setValues({
@@ -56,7 +66,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal }) => {
       style={customStyles}
     >
       <St.Header>
-        <h1>Estimación</h1>
+        <h1>Estima el tiempo de tu tarea.</h1>
         <Icon
           iconType={faClose}
           style={{ cursor: 'pointer' }}

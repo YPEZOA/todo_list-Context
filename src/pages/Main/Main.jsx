@@ -1,5 +1,5 @@
 import * as St from './Main.styled'
-import React, { useContext, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import Icon from '../../components/Icon/Icon'
 import { faAdd, faBan, faTrash } from '@fortawesome/free-solid-svg-icons'
 import UserContext from '../../context/UserContext'
@@ -8,18 +8,32 @@ import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
+  const [tasks, setTasks] = useState([])
   const { currentUser, userTasks } = useContext(UserContext)
+
+  const getTasks = useCallback(() => {
+    setTasks(userTasks)
+  }, [])
+
+  useEffect(() => {
+    getTasks()
+  }, [tasks])
 
   const handleCloseModal = () => {
     setOpenCalendar(false)
   }
 
-  if (!userTasks.length)
+  const handleOpenCalendar = () => {
+    setOpenCalendar(true)
+  }
+
+  if (!tasks.length) {
     return (
       <St.Container>
         <CalendarModal
           isDateModalOpen={openCalendar}
           onCloseModal={handleCloseModal}
+          setTasks={setTasks}
         />
         <h1 style={{ textAlign: 'center' }}>Aún no tienes tareas asignadas.</h1>
         <div
@@ -42,7 +56,7 @@ const Main = () => {
             Revisar Calendario
           </Link>
           <Icon
-            onClick={() => setOpenCalendar(!openCalendar)}
+            onClick={handleOpenCalendar}
             iconType={faAdd}
             style={{
               cursor: 'pointer',
@@ -56,17 +70,18 @@ const Main = () => {
         </div>
       </St.Container>
     )
-
+  }
   return (
     <St.Container>
       <CalendarModal
         isDateModalOpen={openCalendar}
         onCloseModal={handleCloseModal}
+        setTasks={setTasks}
       />
       <h1>Resumen tareas de para {currentUser}.</h1>
       <St.Table>
         <tbody>
-          {userTasks.map(task => (
+          {tasks.map(task => (
             <tr key={task.title}>
               <St.Item>{task.title ? task.title : '-'}</St.Item>
               <St.Item>{task.notes ? task.notes : '-'}</St.Item>
@@ -110,7 +125,7 @@ const Main = () => {
           Revisar Calendario
         </a>
         <Icon
-          onClick={() => setOpenCalendar(!openCalendar)}
+          onClick={handleOpenCalendar}
           iconType={faAdd}
           style={{
             cursor: 'pointer',
