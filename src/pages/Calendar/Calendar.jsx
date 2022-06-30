@@ -9,10 +9,17 @@ import CalendarModal from './components/CalendarModal/CalendarModal'
 
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import UserContext from '../../context/UserContext'
+import { addHours } from 'date-fns'
 
 const CalendarPage = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
-  const [eventSelected, setEventSelected] = useState({})
+  const [eventSelected, setEventSelected] = useState({
+    title: '',
+    notes: '',
+    start: new Date(),
+    end: addHours(new Date(), 2)
+  })
+
   const { userTasks } = useContext(UserContext)
 
   const eventStyleGetter = (event, start, end, isSelected) => {

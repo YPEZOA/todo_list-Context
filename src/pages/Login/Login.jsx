@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const navigate = useNavigate()
-  const { values, reset, handleOnChange } = useForm({
+  const { values, handleOnChange } = useForm({
     user: '',
     password: ''
   })
@@ -21,7 +21,6 @@ const Login = () => {
     e.preventDefault()
     const userData = { currentUser: user, userTasks: [] }
     localStorage.setItem('userData', JSON.stringify(userData))
-    reset()
     navigate('/user/home')
   }
 

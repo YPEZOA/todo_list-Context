@@ -5,6 +5,7 @@ import { faAdd, faBan, faTrash } from '@fortawesome/free-solid-svg-icons'
 import UserContext from '../../context/UserContext'
 import { Link } from 'react-router-dom'
 import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
+import { parseISO } from 'date-fns'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
@@ -13,11 +14,11 @@ const Main = () => {
 
   const getTasks = useCallback(() => {
     setTasks(userTasks)
-  }, [tasks])
+  }, [tasks, setTasks])
 
   useEffect(() => {
     getTasks()
-  }, [tasks])
+  }, [tasks, userTasks])
 
   const handleCloseModal = () => {
     setOpenCalendar(false)
@@ -80,26 +81,29 @@ const Main = () => {
       <h1>Resumen tareas de para {currentUser}.</h1>
       <St.Table>
         <tbody>
-          {tasks.map(task => (
-            <tr key={task.title}>
-              <St.Item>{task.title ? task.title : '-'}</St.Item>
-              <St.Item>{task.notes ? task.notes : '-'}</St.Item>
-              <St.Item style={{ color: '#cccccc' }}>
-                {task.start} - {task.end}
-              </St.Item>
-              <St.Item style={{ textAlign: 'center' }}>
-                <Icon iconType={faBan} style={{ cursor: 'pointer' }} />
-                <Icon
-                  iconType={faTrash}
-                  style={{
-                    cursor: 'pointer',
-                    paddingLeft: 10,
-                    color: 'darkred'
-                  }}
-                />
-              </St.Item>
-            </tr>
-          ))}
+          {tasks.map(task => {
+            const { title, notes, start, end } = task
+            return (
+              <tr key={title}>
+                <St.Item>{title ? title : '-'}</St.Item>
+                <St.Item>{notes ? notes : '-'}</St.Item>
+                <St.Item style={{ color: '#cccccc' }}>
+                  {start} - {end}
+                </St.Item>
+                <St.Item style={{ textAlign: 'center' }}>
+                  <Icon iconType={faBan} style={{ cursor: 'pointer' }} />
+                  <Icon
+                    iconType={faTrash}
+                    style={{
+                      cursor: 'pointer',
+                      paddingLeft: 10,
+                      color: 'darkred'
+                    }}
+                  />
+                </St.Item>
+              </tr>
+            )
+          })}
         </tbody>
       </St.Table>
 

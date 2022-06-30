@@ -1,7 +1,7 @@
 import * as St from './CalendarModal.styled'
 import Modal from 'react-modal/lib/components/Modal'
 import DatePicker from 'react-datepicker'
-import { addHours, differenceInSeconds, format, parseISO } from 'date-fns'
+import { addHours, differenceInSeconds, parseISO, format } from 'date-fns'
 import { useFormik } from 'formik'
 import { registerLocale } from 'react-datepicker'
 
@@ -22,7 +22,7 @@ const customStyles = {
 }
 
 const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
-  const { userTasks } = useContext(UserContext)
+  const { currentUser, userTasks } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   useEffect(() => {
@@ -31,14 +31,15 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       formik.setValues({
         title,
         notes,
-        start: parseISO(start),
-        end: parseISO(end)
+        start: parseISO(start).valueOf() || new Date(),
+        end: parseISO(end).valueOf() || addHours(new Date(), 2)
       })
     }
   }, [eventSelected])
 
   const formik = useFormik({
     initialValues: {
+      _id: Math.random().toString(12),
       title: '',
       notes: '',
       start: new Date(),
@@ -48,11 +49,14 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       //TODO: service consume here
       const difference = differenceInSeconds(values.end, values.start)
       if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
+
       const newTask = {
+        currentUser,
         userTasks: [...userTasks, values]
       }
-      setFormSubmitted(true)
+
       localStorage.setItem('userData', JSON.stringify(newTask))
+      setFormSubmitted(true)
       resetForm(true)
       handleOnCloseModal()
     }
@@ -69,8 +73,19 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     })
   }
 
-  const handleChangeValue = () => {
-    console.log('guardado')
+  const handleChangeValuesTask = () => {
+    const { _id } = eventSelected
+    const saveEventChanges = {
+      _id,
+      ...formik.values
+    }
+    const filterTask = userTasks.filter(task => task._id !== _id)
+    const saveTask = {
+      currentUser,
+      userTasks: [...filterTask, saveEventChanges]
+    }
+    localStorage.setItem('userData', JSON.stringify(saveTask))
+    handleOnCloseModal()
   }
 
   return (
@@ -83,7 +98,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       style={customStyles}
     >
       <St.Header>
-        <h1>Estima el tiempo de tu tarea.</h1>
+        <h1>Estima el tiempo a tu tarea.</h1>
         <Icon
           iconType={faClose}
           style={{ cursor: 'pointer' }}
@@ -101,7 +116,6 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
             showTimeSelect
             locale={'es'}
             timeCaption="Hora"
-            value={formik.values.start}
           />
         </St.DatePickerContainer>
         <St.DatePickerContainer>
@@ -115,7 +129,6 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
             showTimeSelect
             locale={'es'}
             timeCaption="Hora"
-            value={formik.values.end}
           />
         </St.DatePickerContainer>
         <St.FormGroup>
@@ -139,7 +152,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
           ></St.TextNotes>
         </St.FormGroup>
         {eventSelected ? (
-          <St.Button type="button" onClick={handleChangeValue}>
+          <St.Button type="button" onClick={handleChangeValuesTask}>
             Guardar
           </St.Button>
         ) : (
