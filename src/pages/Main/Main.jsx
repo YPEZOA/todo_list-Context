@@ -5,7 +5,6 @@ import { faAdd, faBan, faTrash } from '@fortawesome/free-solid-svg-icons'
 import UserContext from '../../context/UserContext'
 import { Link } from 'react-router-dom'
 import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
-import { parseISO } from 'date-fns'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)

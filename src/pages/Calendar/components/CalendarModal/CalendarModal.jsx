@@ -7,7 +7,7 @@ import { registerLocale } from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
 import es from 'date-fns/locale/es'
-import Icon from '../../../../components/Icon/Icon'
+import Icona from '../../../../components/Icon/Icon'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../../../../context/UserContext'
@@ -99,7 +99,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     >
       <St.Header>
         <h1>Estima el tiempo a tu tarea.</h1>
-        <Icon
+        <Icona
           iconType={faClose}
           style={{ cursor: 'pointer' }}
           onClick={onCloseModal}

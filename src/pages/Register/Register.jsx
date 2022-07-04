@@ -1,7 +1,7 @@
 import InputForm from '../../components/InputForm/InputForm'
 import FormLayout from '../../components/FormLayout/FormLayout'
 import Button from '../../components/Button/Button'
-import Icon from '../../components/Icon/Icon'
+import Icona from '../../components/Icon/Icon'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 
 const Register = () => {
@@ -9,7 +9,7 @@ const Register = () => {
     <>
       <FormLayout title={'Registrate para crear tus tareas'}>
         <a href="login">
-          <Icon
+          <Icona
             iconType={faArrowLeft}
             style={{
               color: 'lightblue',

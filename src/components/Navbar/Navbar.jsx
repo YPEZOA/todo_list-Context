@@ -2,7 +2,7 @@ import { faBars, faThumbTack } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { HideAt, ShowAt } from 'react-with-breakpoints'
-import Icon from '../Icon/Icon'
+import Icona from '../Icon/Icon'
 import * as St from './Navbar.styled'
 
 const NavButton = ({ href, children, ...props }) => {
@@ -29,7 +29,7 @@ const Navbar = () => {
   return (
     <St.Container>
       <St.Brand href="/user/home">
-        <Icon
+        <Icona
           iconType={faThumbTack}
           style={{ fontSize: 25, color: '#f2f2f2' }}
         />
@@ -55,7 +55,7 @@ const Navbar = () => {
             color: '#f2f2f2'
           }}
         >
-          <Icon
+          <Icona
             iconType={faBars}
             style={{
               margin: '0px 20px',

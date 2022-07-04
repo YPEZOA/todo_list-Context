@@ -10,7 +10,7 @@ export const Container = styledComponents.div`
   flex-wrap: wrap;
   background-color: rgb(0,0,0,0.5);
   backdrop-filter: blur(10px);
-  z-index: 1;
+  z-index: 999;
 `
 
 export const Brand = styledComponents.a`
@@ -76,12 +76,9 @@ export const MenuList = styledComponents.div`
   position: absolute;
   display: flex;
   flex-direction: column;
-  height: auto;
   right: 0;
   width: 150px;
   padding: 10px;
   margin-top: 195px;
-  background-color: #1B2631;
-  border-radius: 3px;
-  z-index: -1;
+  background-color: rgb(0 14 28);
 `
