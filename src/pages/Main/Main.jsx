@@ -1,11 +1,10 @@
-import * as St from './Main.styled'
-import React, { useCallback, useContext, useEffect, useState } from 'react'
-import Icon from '../../components/Icon/Icon'
 import { faAdd, faBan, faTrash } from '@fortawesome/free-solid-svg-icons'
-import UserContext from '../../context/UserContext'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Icon from '../../components/Icon/Icon'
+import UserContext from '../../context/UserContext'
 import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
-import { parseISO } from 'date-fns'
+import * as St from './Main.styled'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
