@@ -71,14 +71,3 @@ export const NavButton = styledComponents.button`
     width: 100%;
   }
 `
-
-export const MenuList = styledComponents.div`
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  right: 0;
-  width: 150px;
-  padding: 10px;
-  margin-top: 195px;
-  background-color: rgb(0 14 28);
-`

@@ -10,6 +10,7 @@ import CalendarModal from './components/CalendarModal/CalendarModal'
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import UserContext from '../../context/UserContext'
 import { addHours } from 'date-fns'
+import MotionArticle from '../../components/MotionArticle/MotionArticle'
 
 const CalendarPage = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
@@ -44,26 +45,28 @@ const CalendarPage = () => {
   }
 
   return (
-    <St.Container>
-      <CalendarModal
-        isDateModalOpen={openCalendar}
-        onCloseModal={onCloseCalendar}
-        eventSelected={eventSelected}
-      />
-      <Calendar
-        culture="es"
-        localizer={localizer}
-        events={userTasks}
-        startAccessor="start"
-        endAccessor="end"
-        defaultView="month"
-        eventPropGetter={eventStyleGetter}
-        onDoubleClickEvent={onDoubleClick}
-        components={{ event: CalendarEvent }}
-        messages={getMessagesES()}
-        style={{ height: 'calc(100vh - 70px)' }}
-      />
-    </St.Container>
+    <MotionArticle>
+      <St.Container>
+        <CalendarModal
+          isDateModalOpen={openCalendar}
+          onCloseModal={onCloseCalendar}
+          eventSelected={eventSelected}
+        />
+        <Calendar
+          culture="es"
+          localizer={localizer}
+          events={userTasks}
+          startAccessor="start"
+          endAccessor="end"
+          defaultView="month"
+          eventPropGetter={eventStyleGetter}
+          onDoubleClickEvent={onDoubleClick}
+          components={{ event: CalendarEvent }}
+          messages={getMessagesES()}
+          style={{ height: 'calc(100vh - 70px)' }}
+        />
+      </St.Container>
+    </MotionArticle>
   )
 }
 

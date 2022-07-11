@@ -8,29 +8,9 @@ export const Container = styledComponents.section`
   }
 `
 
-export const Table = styledComponents.table`
-  width: 100%;
-  border-radius: 5px;
-  padding: 0px 20px;
-  background-color: #00a2caba;
-  &.disabled {
-    opacity: 0.7;
-    text-decoration: line-through;
-  }
-  @media screen and (max-width: 765px) {
-    tr {
-      border: 1px solid black;
-      background-color: rgb(255, 255, 255, 0.1);
-    }
-     tr > td {
-      display:block;
-      text-align: center;
-      border: none;
-    }
-  }
-
-`
 export const Item = styledComponents.td`
-  padding: 5px 20px;
-  border-bottom: 1px solid rgb(0,0,0,.3);
+  padding: 10px 10px;
+  border: 1px solid rgb(255,255,255,.3);
+  border-radius: 3px;
+  background-color: rgb(0,0,0,0.3)
 `

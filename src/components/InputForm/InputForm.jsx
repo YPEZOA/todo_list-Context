@@ -5,7 +5,7 @@ const InputForm = ({ label, ...props }) => {
   return (
     <St.Container>
       <St.Label htmlFor={props.id}>{label}</St.Label>
-      <St.Input autoComplete="false" {...props} />
+      <St.Input autoComplete="false" aria-autocomplete="none" {...props} />
     </St.Container>
   )
 }

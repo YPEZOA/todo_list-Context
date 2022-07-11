@@ -1,7 +1,7 @@
 import * as St from './CalendarModal.styled'
 import Modal from 'react-modal/lib/components/Modal'
 import DatePicker from 'react-datepicker'
-import { addHours, differenceInSeconds, parseISO, format } from 'date-fns'
+import { addHours, differenceInSeconds, parseISO } from 'date-fns'
 import { useFormik } from 'formik'
 import { registerLocale } from 'react-datepicker'
 
@@ -98,7 +98,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       style={customStyles}
     >
       <St.Header>
-        <h1>Estima el tiempo a tu tarea.</h1>
+        <h1>Estimación</h1>
         <Icona
           iconType={faClose}
           style={{ cursor: 'pointer' }}

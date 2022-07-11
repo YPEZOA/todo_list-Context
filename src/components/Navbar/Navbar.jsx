@@ -2,6 +2,7 @@ import { faBars, faThumbTack } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { HideAt, ShowAt } from 'react-with-breakpoints'
+import { motion } from 'framer-motion'
 import Icona from '../Icon/Icon'
 import * as St from './Navbar.styled'
 
@@ -69,13 +70,29 @@ const Navbar = () => {
         </button>
 
         {openMenu && (
-          <St.MenuList>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{
+              position: 'absolute',
+              display: 'flex',
+              flexDirection: 'column',
+              right: 0,
+              width: '150px',
+              backgroundColor: 'rgb(0 14 28)',
+              marginTop: '195px',
+              borderRadius: 'none',
+              padding: 10
+            }}
+          >
             <NavButton href="/user/home">Inicio</NavButton>
             <NavButton href="/user/calendar">Calendario</NavButton>
             <NavButton href="/auth/login" style={{ color: '#a3a3a3' }}>
               Logout
             </NavButton>
-          </St.MenuList>
+          </motion.div>
         )}
       </ShowAt>
     </St.Container>

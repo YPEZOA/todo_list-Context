@@ -22,5 +22,5 @@ export const Container = styledComponents.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-bottom: 20px;
+  margin-top: 30px;
 `

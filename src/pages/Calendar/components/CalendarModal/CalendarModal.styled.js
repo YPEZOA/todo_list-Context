@@ -3,7 +3,6 @@ import styledComponents from 'styled-components'
 export const Header = styledComponents.header`
   display: flex;
   justify-content: space-between;
-  align-items: center;
 `
 
 export const FormGroup = styledComponents.div`
@@ -21,11 +20,12 @@ export const TextNotes = styledComponents.textarea`
   border: 1px solid #c6c6c6;
   border-radius: 3px;
   resize: none;
+  border: 2px solid #c6c6c6;
 `
 
 export const Input = styledComponents.input`
-  padding: 7px;
-  border: 1px solid #c6c6c6;
+  padding: 9px;
+  border: 2px solid #c6c6c6;
   border-radius: 3px;
   font-size: 15px;
   transition: outline 0.3s ease;
@@ -35,9 +35,13 @@ export const Input = styledComponents.input`
 `
 
 export const Button = styledComponents.button`
+  width: 100%;
+  display: block;
   padding: 10px;
   border: none;
   border-radius: 3px;
-  background-color: #c6c6c6;
+  background-color: rgb(0,0,0,0.6);
+  font-weight: 600;
+  color: #f2f2f2;
   cursor: pointer;
 `

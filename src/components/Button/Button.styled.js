@@ -7,11 +7,16 @@ export const Button = styledComponents.button`
   padding: 10px;
   display: block;
   width: 100%;
-  border-radius: 50px;
+  border-radius: 3px;
   transition: opacity 0.3s ease;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
+  }
+  &:disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
   }
 `
 

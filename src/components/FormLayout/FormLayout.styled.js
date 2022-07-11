@@ -7,6 +7,7 @@ export const Title = styledComponents.p`
   margin:0;
 `
 export const Container = styledComponents.div`
+  max-width: 400px;
   width: 90%;
   margin: auto;
   margin-top: 30px;

@@ -3,10 +3,11 @@ import FormLayout from '../../components/FormLayout/FormLayout'
 import Button from '../../components/Button/Button'
 import Icona from '../../components/Icon/Icon'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import MotionArticle from '../../components/MotionArticle/MotionArticle'
 
 const Register = () => {
   return (
-    <>
+    <MotionArticle>
       <FormLayout title={'Registrate para crear tus tareas'}>
         <a href="login">
           <Icona
@@ -48,7 +49,7 @@ const Register = () => {
           Registrarse
         </Button>
       </FormLayout>
-    </>
+    </MotionArticle>
   )
 }
 
