@@ -6,18 +6,20 @@ import tasksIcon from '../../assets/images/tasks-icon.png'
 import Image from '../../components/Image/Image'
 import { useNavigate } from 'react-router-dom'
 import MotionArticle from '../../components/MotionArticle/MotionArticle'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as St from './Login.styled'
 import * as Yup from 'yup'
+import useFetch from '../../hooks/useFetch'
 
 const Login = () => {
   const [formValid, setFormValid] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const URL = 'http://localhost:8080/api/user/login'
+
   const navigate = useNavigate()
 
-  useState(() => {
-    console.log
+  useEffect(() => {
     return () => {
       setFormValid(false)
       setIsSubmitted(false)
@@ -39,12 +41,31 @@ const Login = () => {
     },
     validationSchema: ValidateLogin,
     validateOnBlur: true,
-    onSubmit: values => {
-      console.log(values)
+    onSubmit: ({ user, password }) => {
+      fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          user,
+          password
+        }),
+        headers: {
+          'Content-type': 'application/json'
+        }
+      })
+        .then(response => response.json())
+        .then(resp => {
+          if (resp.user) {
+            localStorage.setItem('user', JSON.stringify(resp.user))
+            navigate('/user/home')
+          }
+        })
       setIsSubmitted(true)
-      navigate('/user/home')
     }
   })
+
+  const login = (user, password) => {
+    // loginUser && navigate('/user/home')
+  }
 
   const { errors, touched } = formik
   const anyError = errors.user || errors.password

@@ -11,6 +11,7 @@ import Icona from '../../../../components/Icon/Icon'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../../../../context/UserContext'
+import { addTask } from '../../../../services/task.request'
 
 Modal.setAppElement('#root')
 registerLocale('es', es)
@@ -21,8 +22,26 @@ const customStyles = {
   }
 }
 
+// const prueba = () => {
+//   const objetoPelushe = {
+//     id: 1,
+//     nombre: 'pelushe',
+//     seguidor: true
+//   }
+//   // Aqui ya tienes un objeto
+//   // Para yo poder acceder a sus propiedades por una se hace la destructuracion
+//   const { id, nombre, seguidor } = objetoPelushe
+//   console.log(id, nombre, seguidor)
+//   // ahi esta completa la destructuracion para acceder a sus propiedades una por una
+
+//   // cuando no haces destructuracion debes acceder a los valores de esta forma
+//   console.log(objetoPelushe.id, objetoPelushe.nombre, objetoPelushe.seguidor)
+//   // La idea es hacer destructuracion para que uses solo la propiedad que quieres usar
+//   // Y es lo que mayormente se ve
+// }
+
 const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
-  const { currentUser, userTasks } = useContext(UserContext)
+  const { _id } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
 
   useEffect(() => {
@@ -47,15 +66,11 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     },
     onSubmit: (values, { resetForm }) => {
       //TODO: service consume here
+      const { title, notes, start, end } = values
       const difference = differenceInSeconds(values.end, values.start)
       if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
 
-      const newTask = {
-        currentUser,
-        userTasks: [...userTasks, values]
-      }
-
-      localStorage.setItem('userData', JSON.stringify(newTask))
+      addTask(_id, title, notes, start, end)
       setFormSubmitted(true)
       resetForm(true)
       handleOnCloseModal()

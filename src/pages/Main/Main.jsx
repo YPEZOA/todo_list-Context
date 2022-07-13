@@ -7,15 +7,20 @@ import UserContext from '../../context/UserContext'
 import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
 import * as St from './Main.styled'
 import Task from '../../components/Task/Task'
+import useFetch from '../../hooks/useFetch'
+import Spin from '../../components/Spin/Spin'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
   const [tasks, setTasks] = useState([])
-  const { currentUser, userTasks } = useContext(UserContext)
+
+  const { user, _id } = useContext(UserContext)
+  const URL = `http://localhost:8080/api/user/getUser?id=${_id}`
+  const { data, loading, error } = useFetch(URL)
 
   useEffect(() => {
-    setTasks(userTasks)
-  }, [tasks])
+    setTasks(data.tasks)
+  }, [data])
 
   const handleCloseModal = () => {
     setOpenCalendar(false)
@@ -25,7 +30,9 @@ const Main = () => {
     setOpenCalendar(true)
   }
 
-  if (!tasks.length) {
+  if (loading) return <Spin />
+
+  if (!tasks?.length) {
     return (
       <MotionArticle>
         <St.Container>
@@ -34,7 +41,7 @@ const Main = () => {
             onCloseModal={handleCloseModal}
           />
           <h1 style={{ textAlign: 'center' }}>
-            Aún no tienes tareas asignadas.
+            {user}, Aún no tienes tareas asignadas.
           </h1>
           <div
             style={{
@@ -80,7 +87,18 @@ const Main = () => {
           onCloseModal={handleCloseModal}
           setTasks={setTasks}
         />
-        <h1>Resumen tareas de para {currentUser}.</h1>
+        <h1>
+          <div
+            style={{
+              fontSize: 25,
+              color: 'lightblue',
+              display: 'inline-block'
+            }}
+          >
+            {`{ ${user} }`}
+          </div>{' '}
+          aquí está el resumen de tus tareas.
+        </h1>
         {tasks.map(task => (
           <Task key={task._id} {...task} />
         ))}
