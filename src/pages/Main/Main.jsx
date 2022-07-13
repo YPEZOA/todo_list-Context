@@ -16,7 +16,7 @@ const Main = () => {
 
   const { user, _id } = useContext(UserContext)
   const URL = `http://localhost:8080/api/user/getUser?id=${_id}`
-  const { data, loading, error } = useFetch(URL)
+  const { data, loading } = useFetch(URL)
 
   useEffect(() => {
     setTasks(data.tasks)
@@ -41,7 +41,16 @@ const Main = () => {
             onCloseModal={handleCloseModal}
           />
           <h1 style={{ textAlign: 'center' }}>
-            {user}, Aún no tienes tareas asignadas.
+            <div
+              style={{
+                fontSize: 25,
+                color: 'lightblue',
+                display: 'inline'
+              }}
+            >
+              {`{ ${user} }`}
+            </div>
+            , Sin eventos que realizar.
           </h1>
           <div
             style={{

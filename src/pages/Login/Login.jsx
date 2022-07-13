@@ -55,7 +55,11 @@ const Login = () => {
         .then(response => response.json())
         .then(resp => {
           if (resp.user) {
-            localStorage.setItem('user', JSON.stringify(resp.user))
+            const data = {
+              ...resp.user,
+              token: resp.token
+            }
+            localStorage.setItem('user', JSON.stringify(data))
             navigate('/user/home')
           }
         })

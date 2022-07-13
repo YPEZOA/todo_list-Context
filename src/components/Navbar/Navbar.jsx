@@ -40,6 +40,7 @@ const Navbar = () => {
           <NavButton href="/user/home">Inicio</NavButton>
           <NavButton href="/user/calendar">Calendario</NavButton>
           <NavButton
+            onClick={() => localStorage.clear()}
             href="/auth/login"
             style={{ marginLeft: 20, color: '#a3a3a3' }}
           >

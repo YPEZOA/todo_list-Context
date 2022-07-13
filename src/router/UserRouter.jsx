@@ -7,14 +7,15 @@ import UserContext from '../context/UserContext'
 import useFetch from '../hooks/useFetch'
 
 const UserRouter = () => {
-  const [dataUser, setDataUser] = useState({})
   const { user, email, _id, token } = JSON.parse(localStorage.getItem('user'))
+  const { data } = useFetch(`http://localhost:8080/api/user/getUser?id=${_id}`)
 
   const values = {
     user,
     email,
     _id,
-    token
+    token,
+    tasks: data.tasks
   }
 
   return (

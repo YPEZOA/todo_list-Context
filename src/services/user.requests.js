@@ -19,10 +19,8 @@ export const loginUser = (user, password) => {
           ...resp.user,
           token: resp.token
         }
-        // localStorage.setItem('userData', JSON.stringify(userData))
+        //localStorage.setItem('userData', JSON.stringify(userData))
         const { data } = useFetch(`${BASE_URL}/getUser?id=${resp.user._id}`)
-        console.log(data)
-
         return true
       }
       return false

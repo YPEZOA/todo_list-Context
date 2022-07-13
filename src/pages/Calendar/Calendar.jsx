@@ -14,14 +14,13 @@ import MotionArticle from '../../components/MotionArticle/MotionArticle'
 
 const CalendarPage = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
+  const { tasks } = useContext(UserContext)
   const [eventSelected, setEventSelected] = useState({
     title: '',
     notes: '',
     start: new Date(),
     end: addHours(new Date(), 2)
   })
-
-  const { userTasks } = useContext(UserContext)
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {
@@ -55,7 +54,7 @@ const CalendarPage = () => {
         <Calendar
           culture="es"
           localizer={localizer}
-          events={userTasks}
+          events={tasks}
           startAccessor="start"
           endAccessor="end"
           defaultView="month"

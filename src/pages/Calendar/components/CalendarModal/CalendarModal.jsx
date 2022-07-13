@@ -22,24 +22,6 @@ const customStyles = {
   }
 }
 
-// const prueba = () => {
-//   const objetoPelushe = {
-//     id: 1,
-//     nombre: 'pelushe',
-//     seguidor: true
-//   }
-//   // Aqui ya tienes un objeto
-//   // Para yo poder acceder a sus propiedades por una se hace la destructuracion
-//   const { id, nombre, seguidor } = objetoPelushe
-//   console.log(id, nombre, seguidor)
-//   // ahi esta completa la destructuracion para acceder a sus propiedades una por una
-
-//   // cuando no haces destructuracion debes acceder a los valores de esta forma
-//   console.log(objetoPelushe.id, objetoPelushe.nombre, objetoPelushe.seguidor)
-//   // La idea es hacer destructuracion para que uses solo la propiedad que quieres usar
-//   // Y es lo que mayormente se ve
-// }
-
 const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
   const { _id } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
