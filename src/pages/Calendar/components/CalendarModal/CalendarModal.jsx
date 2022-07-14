@@ -6,12 +6,11 @@ import { useFormik } from 'formik'
 import { registerLocale } from 'react-datepicker'
 
 import 'react-datepicker/dist/react-datepicker.css'
-import es from 'date-fns/locale/es'
 import Icona from '../../../../components/Icon/Icon'
 import { faClose } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../../../../context/UserContext'
-import { addTask } from '../../../../services/task.request'
+import es from 'date-fns/locale/es'
 
 Modal.setAppElement('#root')
 registerLocale('es', es)
@@ -23,8 +22,28 @@ const customStyles = {
 }
 
 const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
-  const { _id } = useContext(UserContext)
+  const { _id, refetch, token } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const BASE_URL = 'http://localhost:8080/api/tasks'
+
+  const addTask = (userId, title, notes, start, end) => {
+    fetch(`${BASE_URL}/add-task`, {
+      method: 'POST',
+      body: JSON.stringify({
+        userId,
+        title,
+        notes,
+        start,
+        end
+      }),
+      headers: new Headers({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      })
+    })
+      .then(response => response.json())
+      .then(resp => refetch())
+  }
 
   useEffect(() => {
     if (eventSelected) {
@@ -48,14 +67,15 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     },
     onSubmit: (values, { resetForm }) => {
       //TODO: service consume here
+      console.log(values)
       const { title, notes, start, end } = values
       const difference = differenceInSeconds(values.end, values.start)
       if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
 
-      addTask(_id, title, notes, start, end)
+      //addTask(_id, title, notes, start, end)
       setFormSubmitted(true)
       resetForm(true)
-      handleOnCloseModal()
+      //handleOnCloseModal()
     }
   })
 
@@ -76,12 +96,12 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       _id,
       ...formik.values
     }
-    const filterTask = userTasks.filter(task => task._id !== _id)
+    const filterTask = tasks.filter(task => task._id !== _id)
     const saveTask = {
       currentUser,
       userTasks: [...filterTask, saveEventChanges]
     }
-    localStorage.setItem('userData', JSON.stringify(saveTask))
+    localStorage.setItem('user', JSON.stringify(saveTask))
     handleOnCloseModal()
   }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Main from '../pages/Main/Main'
 import Calendar from '../pages/Calendar/Calendar'
@@ -8,13 +8,17 @@ import useFetch from '../hooks/useFetch'
 
 const UserRouter = () => {
   const { user, email, _id, token } = JSON.parse(localStorage.getItem('user'))
-  const { data } = useFetch(`http://localhost:8080/api/user/getUser?id=${_id}`)
+  const { data, loading, refetch } = useFetch(
+    `http://localhost:8080/api/user/getUser?id=${_id}`
+  )
 
   const values = {
     user,
     email,
     _id,
     token,
+    loading,
+    refetch,
     tasks: data.tasks
   }
 

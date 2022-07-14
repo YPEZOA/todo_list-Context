@@ -22,7 +22,7 @@ const useFetch = apiUrl => {
     fetching()
   }, [fetching])
 
-  return { data, loading, error }
+  return { data, loading, error, refetch: fetching }
 }
 
 export default useFetch

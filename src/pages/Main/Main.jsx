@@ -1,3 +1,4 @@
+import React from 'react'
 import { faAdd } from '@fortawesome/free-solid-svg-icons'
 import { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -7,20 +8,17 @@ import UserContext from '../../context/UserContext'
 import CalendarModal from '../Calendar/components/CalendarModal/CalendarModal'
 import * as St from './Main.styled'
 import Task from '../../components/Task/Task'
-import useFetch from '../../hooks/useFetch'
 import Spin from '../../components/Spin/Spin'
 
 const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
-  const [tasks, setTasks] = useState([])
+  const [userTasks, setUserTasks] = useState([])
 
-  const { user, _id } = useContext(UserContext)
-  const URL = `http://localhost:8080/api/user/getUser?id=${_id}`
-  const { data, loading } = useFetch(URL)
+  const { user, loading, tasks } = useContext(UserContext)
 
   useEffect(() => {
-    setTasks(data.tasks)
-  }, [data])
+    setUserTasks(tasks)
+  }, [tasks])
 
   const handleCloseModal = () => {
     setOpenCalendar(false)
@@ -32,7 +30,7 @@ const Main = () => {
 
   if (loading) return <Spin />
 
-  if (!tasks?.length) {
+  if (!userTasks?.length) {
     return (
       <MotionArticle>
         <St.Container>
@@ -94,7 +92,6 @@ const Main = () => {
         <CalendarModal
           isDateModalOpen={openCalendar}
           onCloseModal={handleCloseModal}
-          setTasks={setTasks}
         />
         <h1>
           <div
@@ -108,7 +105,7 @@ const Main = () => {
           </div>{' '}
           aquí está el resumen de tus tareas.
         </h1>
-        {tasks.map(task => (
+        {userTasks.map(task => (
           <Task key={task._id} {...task} />
         ))}
         <br />
