@@ -1,7 +1,7 @@
 import styledComponents from 'styled-components'
 
 export const Link = styledComponents.a`
-  color: #00a2caba;
+  color: #61d0ff;
   text-decoration: none;
   font-size: 15px;
   transition: color 0.3s ease;

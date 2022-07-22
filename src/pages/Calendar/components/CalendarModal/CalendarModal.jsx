@@ -22,7 +22,7 @@ const customStyles = {
 }
 
 const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
-  const { _id, refetch, token } = useContext(UserContext)
+  const { refetch, token, _id } = useContext(UserContext)
   const [formSubmitted, setFormSubmitted] = useState(false)
   const BASE_URL = 'http://localhost:8080/api/tasks'
 
@@ -40,9 +40,7 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json'
       })
-    })
-      .then(response => response.json())
-      .then(resp => refetch())
+    }).then(response => refetch())
   }
 
   useEffect(() => {
@@ -67,15 +65,14 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     },
     onSubmit: (values, { resetForm }) => {
       //TODO: service consume here
-      console.log(values)
       const { title, notes, start, end } = values
       const difference = differenceInSeconds(values.end, values.start)
       if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
 
-      //addTask(_id, title, notes, start, end)
+      addTask(_id, title, notes, start, end)
       setFormSubmitted(true)
       resetForm(true)
-      //handleOnCloseModal()
+      handleOnCloseModal()
     }
   })
 

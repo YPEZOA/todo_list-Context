@@ -1,8 +1,8 @@
 import styledComponents from 'styled-components'
 
 export const Container = styledComponents.div`
-  background-color: #f2f2f2;
-  border-radius: 4px;
+  border: 2px solid gray;
+  border-radius: 5px;
   padding: 10px 20px;
   margin-top: 10px;
   @media screen and (max-width: 1024px) {
@@ -13,14 +13,15 @@ export const Container = styledComponents.div`
 `
 
 export const Title = styledComponents.span`
-  color: rgb(129, 174, 193);
+  color: #60badd;
+  text-decoration: underline;
   font-weight: bold;
   font-size: 20px;
 `
 
 export const Notes = styledComponents.p`
+  color: #f2f2f2;
   display: block;
-  color: #000;
   padding: 0;
   margin: 0;
   padding-top: 15px;
@@ -31,8 +32,8 @@ export const ContainerDates = styledComponents.div`
 `
 
 export const Dates = styledComponents.span`
-  color: rgb(0,0,0,0.8);
-  font-size: 12px;
+  color: lightgray;
+  font-size: 13px;
 `
 
 export const BoxHeader = styledComponents.div`

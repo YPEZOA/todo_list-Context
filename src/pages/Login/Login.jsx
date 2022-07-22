@@ -10,11 +10,11 @@ import { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
 import * as St from './Login.styled'
 import * as Yup from 'yup'
-import useFetch from '../../hooks/useFetch'
 
 const Login = () => {
   const [formValid, setFormValid] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [errorSubmitMessage, setErrorSubmitMessage] = useState('')
   const URL = 'http://localhost:8080/api/user/login'
 
   const navigate = useNavigate()
@@ -34,6 +34,35 @@ const Login = () => {
     password: Yup.string().required('Por favor, ingresa la contraseña')
   })
 
+  const login = (user, password) => {
+    fetch(URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        user,
+        password
+      }),
+      headers: {
+        'Content-type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.status === 200 && resp.user) {
+          const data = {
+            ...resp.user,
+            token: resp.token
+          }
+          localStorage.setItem('user', JSON.stringify(data))
+          navigate('/user/home')
+        } else {
+          setErrorSubmitMessage(resp.message)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
   const formik = useFormik({
     initialValues: {
       user: '',
@@ -42,34 +71,10 @@ const Login = () => {
     validationSchema: ValidateLogin,
     validateOnBlur: true,
     onSubmit: ({ user, password }) => {
-      fetch(URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          user,
-          password
-        }),
-        headers: {
-          'Content-type': 'application/json'
-        }
-      })
-        .then(response => response.json())
-        .then(resp => {
-          if (resp.user) {
-            const data = {
-              ...resp.user,
-              token: resp.token
-            }
-            localStorage.setItem('user', JSON.stringify(data))
-            navigate('/user/home')
-          }
-        })
+      login(user, password)
       setIsSubmitted(true)
     }
   })
-
-  const login = (user, password) => {
-    // loginUser && navigate('/user/home')
-  }
 
   const { errors, touched } = formik
   const anyError = errors.user || errors.password
@@ -80,7 +85,7 @@ const Login = () => {
         url={tasksIcon}
         alt="tasks"
         width="110"
-        style={{ paddingBottom: 20, paddingTop: 100 }}
+        style={{ paddingBottom: 20, paddingTop: 60 }}
       />
       <FormLayout
         onHandleSubmit={formik.handleSubmit}
@@ -92,6 +97,7 @@ const Login = () => {
           label="Usuario"
           type="text"
           id="name"
+          autocomplete="off"
           value={formik.values.user}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
@@ -108,9 +114,10 @@ const Login = () => {
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-        {errors.password && touched.password && (
+        {errors.password && touched.password && !errorSubmitMessage.length && (
           <St.ErrorMessage>{errors.password}</St.ErrorMessage>
         )}
+
         <Button
           type="submit"
           style={{ marginTop: 40 }}
@@ -118,6 +125,9 @@ const Login = () => {
         >
           Ingresar
         </Button>
+        {errorSubmitMessage && (
+          <St.ErrorMessage>{errorSubmitMessage}</St.ErrorMessage>
+        )}
         <LinkItem path={'register'} textLeft="Aún no comienzas?">
           Registrate aquí
         </LinkItem>

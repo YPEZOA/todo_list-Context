@@ -12,9 +12,9 @@ const NavButton = ({ href, children, ...props }) => {
 
   return (
     <St.NavLink
-      href={active ? '' : href}
+      href={href}
       style={{
-        backgroundColor: active ? '#81aec1' : undefined,
+        backgroundColor: active ? '#69badd' : undefined,
         color: active ? '#202023' : '#f2f2f2'
       }}
       {...props}
@@ -27,9 +27,13 @@ const NavButton = ({ href, children, ...props }) => {
 const Navbar = () => {
   const [openMenu, setOpenMenu] = useState(false)
 
+  const onLogout = () => {
+    localStorage.clear()
+  }
+
   return (
     <St.Container>
-      <St.Brand href="/user/home">
+      <St.Brand href="/user/home" aria-label="brand-icon">
         <Icona
           iconType={faThumbTack}
           style={{ fontSize: 25, color: '#f2f2f2' }}
@@ -40,7 +44,7 @@ const Navbar = () => {
           <NavButton href="/user/home">Inicio</NavButton>
           <NavButton href="/user/calendar">Calendario</NavButton>
           <NavButton
-            onClick={() => localStorage.clear()}
+            onClick={onLogout}
             href="/auth/login"
             style={{ marginLeft: 20, color: '#a3a3a3' }}
           >
@@ -56,6 +60,7 @@ const Navbar = () => {
             outline: 0,
             color: '#f2f2f2'
           }}
+          aria-label="menu-bar"
         >
           <Icona
             iconType={faBars}
@@ -88,9 +93,18 @@ const Navbar = () => {
               padding: 10
             }}
           >
-            <NavButton href="/user/home">Inicio</NavButton>
-            <NavButton href="/user/calendar">Calendario</NavButton>
-            <NavButton href="/auth/login" style={{ color: '#a3a3a3' }}>
+            <NavButton href="/user/home" aria-label="home">
+              Inicio
+            </NavButton>
+            <NavButton href="/user/calendar" aria-label="calendar">
+              Calendario
+            </NavButton>
+            <NavButton
+              href="/auth/login"
+              style={{ color: '#a3a3a3' }}
+              aria-label="logout"
+              onClick={onLogout}
+            >
               Logout
             </NavButton>
           </motion.div>

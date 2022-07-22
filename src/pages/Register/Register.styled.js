@@ -5,7 +5,4 @@ export const ErrorMessage = styledComponents.span`
   color: #ff4545;
   font-size: 14px;
   margin-top: 5px;
-  &::after {
-    content: ' *';
-  }
 `

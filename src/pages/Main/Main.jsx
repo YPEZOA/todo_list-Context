@@ -108,18 +108,18 @@ const Main = () => {
         {userTasks.map(task => (
           <Task key={task._id} {...task} />
         ))}
-        <br />
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginTop: 10
           }}
         >
           <a
             href="calendar"
             style={{
-              backgroundColor: 'rgb(129 174 193)',
+              backgroundColor: '#69badd',
               textDecoration: 'none',
               borderRadius: 3,
               padding: 10,
@@ -128,17 +128,18 @@ const Main = () => {
           >
             Revisar Calendario
           </a>
-          <Icon
-            onClick={handleOpenCalendar}
-            iconType={faAdd}
-            style={{
-              cursor: 'pointer',
-              padding: 13,
-              borderRadius: 3,
-              backgroundColor: 'rgb(129 174 193)',
-              color: '#000'
-            }}
-          />
+          <span onClick={handleOpenCalendar}>
+            <Icon
+              iconType={faAdd}
+              style={{
+                cursor: 'pointer',
+                padding: 13,
+                borderRadius: 3,
+                backgroundColor: '#69badd',
+                color: '#000'
+              }}
+            />
+          </span>
         </div>
       </St.Container>
     </MotionArticle>
