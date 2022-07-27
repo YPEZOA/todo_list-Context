@@ -14,7 +14,6 @@ export const Container = styledComponents.div`
 
 export const Title = styledComponents.span`
   color: #60badd;
-  text-decoration: underline;
   font-weight: bold;
   font-size: 20px;
 `
@@ -37,6 +36,7 @@ export const Dates = styledComponents.span`
 `
 
 export const BoxHeader = styledComponents.div`
+  position: relative;
   display: flex;
   align-items: center;
   @media screen and (max-width: 1024px) {

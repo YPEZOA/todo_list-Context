@@ -14,7 +14,7 @@ const Main = () => {
   const [openCalendar, setOpenCalendar] = useState(false)
   const [userTasks, setUserTasks] = useState([])
 
-  const { user, loading, tasks } = useContext(UserContext)
+  const { user, loading, tasks, tasksDisabled } = useContext(UserContext)
 
   useEffect(() => {
     setUserTasks(tasks)
@@ -105,9 +105,11 @@ const Main = () => {
           </div>{' '}
           aquí está el resumen de tus tareas.
         </h1>
-        {userTasks.map(task => (
-          <Task key={task._id} {...task} />
-        ))}
+
+        {userTasks.map(
+          task => task.complete === false && <Task key={task._id} {...task} />
+        )}
+
         <div
           style={{
             display: 'flex',
@@ -141,6 +143,13 @@ const Main = () => {
             />
           </span>
         </div>
+      </St.Container>
+      <St.Container>
+        <h2>Tareas terminadas</h2>
+        {tasksDisabled.length &&
+          tasksDisabled
+            .map(task => <Task key={task._id} {...task} />)
+            .reverse()}
       </St.Container>
     </MotionArticle>
   )

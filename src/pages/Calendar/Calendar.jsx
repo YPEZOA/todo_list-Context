@@ -13,8 +13,17 @@ import { addHours } from 'date-fns'
 import MotionArticle from '../../components/MotionArticle/MotionArticle'
 
 const CalendarPage = () => {
+  const [incompletedTasks, setIncompletesTasks] = useState([])
   const [openCalendar, setOpenCalendar] = useState(false)
   const { tasks } = useContext(UserContext)
+
+  useEffect(() => {
+    const filterCompletedTasks = tasks
+      ?.map(task => task)
+      .filter(task => task.complete === false)
+    setIncompletesTasks(filterCompletedTasks)
+  }, [tasks])
+
   const [eventSelected, setEventSelected] = useState({
     title: '',
     notes: '',
@@ -54,7 +63,7 @@ const CalendarPage = () => {
         <Calendar
           culture="es"
           localizer={localizer}
-          events={tasks}
+          events={incompletedTasks}
           startAccessor="start"
           endAccessor="end"
           defaultView="month"

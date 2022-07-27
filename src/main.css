@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Anek+Malayalam&display=swap');
+
 body {
   background-color: #202023;
   margin: 0px;
@@ -8,19 +9,6 @@ body,
 html {
   color: #f2f2f2;
   font-family: 'Anek Malayalam', sans-serif;
-}
-
-main {
-  position: relative;
-}
-
-#vanta {
-  z-index: 0;
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
 }
 
 .form-control {
@@ -42,6 +30,8 @@ main {
   align-items: center;
   display: flex;
   justify-content: center;
+  align-items: flex-start;
+  padding-top: 100px;
   transition: opacity 0.2s ease-in-out;
   z-index: 999;
 }
@@ -64,18 +54,21 @@ main {
 }
 
 .modal {
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    156deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 0.6) 16%,
-    rgba(0, 212, 255, 0.5) 58%
-  );
+  background: linear-gradient(220.55deg, #5d85a6 0%, #0e2c5e 100%);
   border-radius: 3px;
   color: #f2f2f2;
   max-height: 720px;
   max-width: 420px;
   outline: none;
   padding: 30px 30px;
+  text-align: left;
+}
+
+.modal-actions {
+  background: linear-gradient(220.55deg, #5d85a6 0%, #0e2c5e 100%);
+  border-radius: 3px;
+  color: #f2f2f2;
+  max-width: 420px;
+  outline: none;
   text-align: left;
 }

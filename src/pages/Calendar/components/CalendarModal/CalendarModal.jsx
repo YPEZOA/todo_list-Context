@@ -64,7 +64,6 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
       end: addHours(new Date(), 2)
     },
     onSubmit: (values, { resetForm }) => {
-      //TODO: service consume here
       const { title, notes, start, end } = values
       const difference = differenceInSeconds(values.end, values.start)
       if (isNaN(difference) || difference <= 0) alert('Fechas incorrectas')
@@ -87,18 +86,28 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
     })
   }
 
+  const updateTask = (id, formValues) => {
+    const options = {
+      method: 'PUT',
+      body: JSON.stringify(formValues),
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${token}`
+      }
+    }
+    fetch(`${BASE_URL}/updateTask/${id}`, options)
+      .then(response => response.json())
+      .then(resp => {
+        if (resp.status == 200) {
+          alert(resp.message)
+          refetch()
+        }
+      })
+  }
+
   const handleChangeValuesTask = () => {
     const { _id } = eventSelected
-    const saveEventChanges = {
-      _id,
-      ...formik.values
-    }
-    const filterTask = tasks.filter(task => task._id !== _id)
-    const saveTask = {
-      currentUser,
-      userTasks: [...filterTask, saveEventChanges]
-    }
-    localStorage.setItem('user', JSON.stringify(saveTask))
+    updateTask(_id, { ...formik.values })
     handleOnCloseModal()
   }
 
@@ -126,10 +135,8 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
             selected={formik.values.start}
             className="form-control"
             onChange={event => onDateChange(event, 'start')}
-            dateFormat="Pp"
-            showTimeSelect
+            dateFormat="P"
             locale={'es'}
-            timeCaption="Hora"
           />
         </St.DatePickerContainer>
         <St.DatePickerContainer>
@@ -139,10 +146,8 @@ const CalendarModal = ({ isDateModalOpen, onCloseModal, eventSelected }) => {
             selected={formik.values.end}
             className="form-control"
             onChange={event => onDateChange(event, 'end')}
-            dateFormat="Pp"
-            showTimeSelect
+            dateFormat="P"
             locale={'es'}
-            timeCaption="Hora"
           />
         </St.DatePickerContainer>
         <St.FormGroup>
