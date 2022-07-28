@@ -87,7 +87,7 @@ const Main = () => {
           </div>
         </St.Container>
         <St.Container>
-          <h2>{tasksDisabled && 'Tareas terminadas'}</h2>
+          <h2>{!tasksDisabled?.length ? '' : 'Tareas terminadas'}</h2>
           {tasksDisabled &&
             tasksDisabled
               .map(task => <Task key={task._id} {...task} />)
@@ -156,7 +156,7 @@ const Main = () => {
         </div>
       </St.Container>
       <St.Container>
-        <h2>{tasksDisabled && 'Tareas terminadas'}</h2>
+        <h2>{!tasksDisabled?.length ? '' : 'Tareas terminadas'}</h2>
         {tasksDisabled &&
           tasksDisabled
             .map(task => <Task key={task._id} {...task} />)
