@@ -20,7 +20,7 @@ const Task = ({ _id, complete, title, notes, start, end }) => {
   }
 
   return (
-    <St.Container>
+    <St.Container style={{ opacity: complete ? 0.5 : 1 }}>
       <ActionsModal
         onOpenModal={openModal}
         onCloseModal={handleCloseModal}
@@ -34,30 +34,25 @@ const Task = ({ _id, complete, title, notes, start, end }) => {
           </St.Dates>
         </St.ContainerDates>
         {complete ? (
-          <>
-            <Icon
-              iconType={faFaceDizzy}
-              style={{
-                position: 'absolute',
-                fontSize: '20px',
-                right: 0,
-                cursor: 'pointer'
-              }}
-            />
-          </>
+          <Icon
+            iconType={faFaceDizzy}
+            style={{
+              position: 'absolute',
+              fontSize: '20px',
+              right: 0
+            }}
+          />
         ) : (
-          <>
-            <Icon
-              onClick={handleOpenModal}
-              iconType={faCheck}
-              style={{
-                position: 'absolute',
-                fontSize: '20px',
-                right: 0,
-                cursor: 'pointer'
-              }}
-            />
-          </>
+          <Icon
+            onClick={handleOpenModal}
+            iconType={faCheck}
+            style={{
+              position: 'absolute',
+              fontSize: '20px',
+              right: 0,
+              cursor: 'pointer'
+            }}
+          />
         )}
       </St.BoxHeader>
       <St.Notes>{notes}</St.Notes>

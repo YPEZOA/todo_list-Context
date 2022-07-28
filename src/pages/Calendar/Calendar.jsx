@@ -15,6 +15,12 @@ import MotionArticle from '../../components/MotionArticle/MotionArticle'
 const CalendarPage = () => {
   const [incompletedTasks, setIncompletesTasks] = useState([])
   const [openCalendar, setOpenCalendar] = useState(false)
+  const [eventSelected, setEventSelected] = useState({
+    title: '',
+    notes: '',
+    start: new Date().toDateString(),
+    end: addHours(new Date(), 2).toDateString()
+  })
   const { tasks } = useContext(UserContext)
 
   useEffect(() => {
@@ -23,13 +29,6 @@ const CalendarPage = () => {
       .filter(task => task.complete === false)
     setIncompletesTasks(filterCompletedTasks)
   }, [tasks])
-
-  const [eventSelected, setEventSelected] = useState({
-    title: '',
-    notes: '',
-    start: new Date(),
-    end: addHours(new Date(), 2)
-  })
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const style = {

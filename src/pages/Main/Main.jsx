@@ -17,7 +17,10 @@ const Main = () => {
   const { user, loading, tasks, tasksDisabled } = useContext(UserContext)
 
   useEffect(() => {
-    setUserTasks(tasks)
+    const filterTasks = tasks
+      ?.map(task => task)
+      .filter(task => task.complete === false)
+    setUserTasks(filterTasks)
   }, [tasks])
 
   const handleCloseModal = () => {
@@ -48,7 +51,7 @@ const Main = () => {
             >
               {`{ ${user} }`}
             </div>
-            , Sin eventos que realizar.
+            , Sin tareas que realizar.
           </h1>
           <div
             style={{
@@ -83,9 +86,17 @@ const Main = () => {
             />
           </div>
         </St.Container>
+        <St.Container>
+          <h2>{tasksDisabled && 'Tareas terminadas'}</h2>
+          {tasksDisabled &&
+            tasksDisabled
+              .map(task => <Task key={task._id} {...task} />)
+              .reverse()}
+        </St.Container>
       </MotionArticle>
     )
   }
+
   return (
     <MotionArticle>
       <St.Container>
@@ -145,8 +156,8 @@ const Main = () => {
         </div>
       </St.Container>
       <St.Container>
-        <h2>Tareas terminadas</h2>
-        {tasksDisabled.length &&
+        <h2>{tasksDisabled && 'Tareas terminadas'}</h2>
+        {tasksDisabled &&
           tasksDisabled
             .map(task => <Task key={task._id} {...task} />)
             .reverse()}

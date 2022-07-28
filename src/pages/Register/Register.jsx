@@ -49,6 +49,7 @@ const Register = () => {
       .then(resp => {
         if (resp.status === 200) {
           setIsRegistered(true)
+          alert('Registro completo.')
           navigate('/auth/login')
         }
       })
